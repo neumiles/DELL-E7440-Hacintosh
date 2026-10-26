@@ -1266,7 +1266,7 @@
 				Rg==
 				</data>
 				<key>boot-args</key>
-				<string>keepsyms=1  alcid=12 -v</string>
+				<string>keepsyms=1  alcid=12 -v alcdelay=1000 alc-mic-gain=20 alctcsel=2</string>
 				<key>csr-active-config</key>
 				<data>
 				ZwAAAA==
