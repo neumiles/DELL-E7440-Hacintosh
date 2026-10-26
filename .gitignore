@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+.Spotlight-V100
+.fseventsd
+.Trashes
+.TemporaryItems
+
+# 编辑器
+*.swp
+*.swo
+*~
+
+# 分享包（自动生成，非核心）
+.trae-html-share-packages/
