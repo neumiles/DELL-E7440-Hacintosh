@@ -16,6 +16,8 @@ AGENT="/Library/LaunchAgents/com.black-dragon74.ALCPlugFix.plist"
 mkdir -p "$DST"
 cp "$SRC/ALCPlugFix" "$DST/ALCPlugFix"
 cp "$SRC/config.plist" "$DST/config.plist"
+# alc-verb 仅用于验证/手动调试，ALCPlugFix 本身不依赖它
+[ -f "$SRC/alc-verb" ] && cp "$SRC/alc-verb" "$DST/alc-verb"
 cp "$SRC/com.black-dragon74.ALCPlugFix.plist" "$AGENT"
 
 chown -R root:wheel "$DST"
@@ -28,4 +30,4 @@ launchctl bootout "gui/$(id -u "${SUDO_USER:-$(stat -f %Su /dev/console)}")" "$A
 launchctl bootstrap "gui/$(id -u "${SUDO_USER:-$(stat -f %Su /dev/console)}")" "$AGENT" 2>/dev/null || true
 
 echo "已安装：$DST，LaunchAgent：$AGENT"
-echo "验证：/tmp/alc-verb -q 0x12 0xb60 0 应输出 0x00000001"
+echo "验证：/usr/local/ALCPlugFix/alc-verb -q 0x12 0xb60 0 应输出 0x00000001"
