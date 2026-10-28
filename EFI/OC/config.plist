@@ -587,6 +587,8 @@
 			<false/>
 			<key>AvoidRuntimeDefrag</key>
 			<true/>
+			<key>ClearTaskSwitchBit</key>
+			<false/>
 			<key>DevirtualiseMmio</key>
 			<false/>
 			<key>DisableSingleUser</key>
@@ -2521,7 +2523,7 @@
 				Rg==
 				</data>
 				<key>boot-args</key>
-				<string>swd_panic=1 keepsyms=1 alcdelay=1000 alc-mic-gain=20 alctcsel=2 rtcfx_exclude=40-45,80-AB</string>
+				<string>swd_panic=1 keepsyms=1 alcdelay=1000 alc-mic-gain=10 alctcsel=2 rtcfx_exclude=40-45,80-AB</string>
 				<key>csr-active-config</key>
 				<data>
 				5wMAAA==
@@ -2706,7 +2708,7 @@
 				<key>Comment</key>
 				<string></string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>LoadEarly</key>
 				<false/>
 				<key>Path</key>
@@ -2754,7 +2756,7 @@
 				<key>Comment</key>
 				<string></string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>LoadEarly</key>
 				<false/>
 				<key>Path</key>
@@ -2922,6 +2924,8 @@
 				<string>RuntimeCode</string>
 			</dict>
 		</array>
+		<key>Unload</key>
+		<array/>
 	</dict>
 </dict>
 </plist>
