@@ -15,7 +15,7 @@ DELL Latitude E7440 的 OpenCore 引导配置 + 系统侧配套组件，目标�
 | WiFi / 蓝牙 | ✅ AirportItlwm_BS + IntelBluetooth 三件套 |
 | 音频输出 | ✅ AppleALC，layout-id 12（ALC292） |
 | 麦克风增益 | ✅ ALCPlugFix 压制增益（见「系统侧部署」） |
-| 睡眠 | ⚠️ 纯 S3 正常；hibernatemode 25 存在异常 |
+| 睡眠 | ✅ S3 睡眠 + hibernatemode 25 断电休眠均正常（rtc-blacklist 修复） |
 | Recovery | ⚠️ 只能看到灰白背景（系统卷 SSV 已损坏，非 EFI 问题） |
 
 ## 硬件
@@ -158,7 +158,7 @@ launchctl kickstart -k gui/$(id -u) /Library/LaunchAgents/com.black-dragon74.ALC
 - **Booter Quirks**：`EnableWriteUnprotector=true` + `RebuildAppleMemoryMap=false`
 - **HibernateMode**：`NVRAM`
 - **ACPI（12 个启用）**：XHC-PS3 / EC-LAPTOP / XOSI / HPET_RTC_TIMR-fix / LPC / PLUG / PNLF / PNOT / SMBUS / ALS0 / ALCfix / ACPIDBG
-  - 注意：GPRW 补丁与 SSDT-GPRW 当前**未启用**，与 `docs/开发进度.md` 记录的原始基线不同，排查唤醒问题时需留意
+  - 注意：SSDT-GPRW 已启用（`898e978`），用于 RTC 休眠/唤醒修复
 - **Kexts（22 项启用）**：Lilu、VirtualSMC（+SMCBattery/SMCProcessor/SMCSuperIO）、WhateverGreen、AppleALC、AirportItlwm_BS、IntelBluetooth 三件套、VoodooPS2 R6（+Keyboard/Trackpad）、IntelMausi、BrightnessKeys、CpuTscSync、USBPorts_E7440、RTCMemoryFixup、HibernationFixup、SystemProfilerMemoryFixup、CodecCommander
 
 ## 开发规范
@@ -167,12 +167,12 @@ launchctl kickstart -k gui/$(id -u) /Library/LaunchAgents/com.black-dragon74.ALC
 - 提交信息用中文，格式：`类型: 简述`（`fix` / `feat` / `docs` / `test`）
 - 每次改动记录到 [开发进度](docs/开发进度.md)
 - 涉及 SMBIOS 序列号等标识，本仓库仅本地使用，勿公开分享
-- 当前仓库未配置 remote，推送到 GitHub 前需先 `git remote add`
+- 远端已配置：`git@github.com:black-dragon74/E7440-OpenCore`，改动后执行 `git push origin master`
 
 ## 已知问题
 
-1. **hibernatemode 25 异常**：纯 S3 正常，休眠/混合睡眠存在唤醒或关机问题，根因待定位
-2. **Recovery 灰白背景**：系统卷 SSV（`Sealed: Broken`）导致，与 EFI 无关，需重装或恢复快照
-3. **CodecCommander 无效**：Big Sur 下无法加载，其 SSDT（`SSDT-ALCfix.aml`）当前无 consumer，保留仅为历史兼容
+1. **Recovery 灰白背景**：系统卷 SSV（`Sealed: Broken`）导致，与 EFI 无关，需重装或恢复快照
+2. **CodecCommander 无效**：Big Sur 下无法加载，其 SSDT（`SSDT-ALCfix.aml`）当前无 consumer，保留仅为历史兼容
+3. **合盖不触发睡眠**：`AppleACPILid` 事件映射问题，lid close 未转换为 macOS 睡眠事件，待修
 
 详见 [E7440-休眠问题复盘报告](docs/E7440-休眠问题复盘报告.html)。
